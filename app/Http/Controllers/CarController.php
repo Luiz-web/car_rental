@@ -5,17 +5,42 @@ namespace App\Http\Controllers;
 use App\Models\Car;
 use App\Http\Requests\StoreCarRequest;
 use App\Http\Requests\UpdateCarRequest;
+use Illuminate\Http\Request;
+use App\Repositories\CarRepository;
 
 class CarController extends Controller
 {
+
+    public function __construct(Car $car) {
+        $this->car = $car;
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $carRepository = new CarRepository($this->car);
+
+        if($request->has('relational_attrs')) {
+            $relational_attrs = 'carModel:id,'.$request->relational_attrs;
+            $carRepository->SelectRelationalAttributes($relational_attrs);
+        } else {
+            $carRepository->SelectRelationalAttributes('carModel');
+        }
+
+        if($request->has('filters')) {
+            $filters = $request->filters;
+            $carRepository->filter($filters);
+        }
+
+        if($request->has('attrs')) {
+            $attrs = $request->attrs;
+            $carRepository->selectAttributes($attrs);
+        }
+
+        return response()->json($carRepository->getResult(), 200);
     }
 
     /**
