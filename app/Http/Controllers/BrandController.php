@@ -24,27 +24,26 @@ class BrandController extends Controller
     public function index(Request $request)
     {
 
-        $brandRepository = new BrandRepositpory($this->brand);
+        $brandRepository = new BrandRepository($this->brand);
        
         if($request->has('model_attr')) {
             $model_attr = 'carModels:id,'.$request->model_attr;
-            $brandRepository->selectAttributes($model_attr);
+            $brandRepository->selectRelationalAttributes($model_attr);
         }  else {
-            $brandRepository->selectAttributes('carModels');
+            $brandRepository->selectRelationalAttributes('carModels');
         }
 
         if($request->has('filter')) {
-           $brandRepository->filter($request->filter);
+            $filters = $request->filter;
+           $brandRepository->filter($filters);
         }
 
         if($request->has('attr')) {
-            $attr = $request->attr;
-            $brands = $brands->selectRaw($attr)->get();
-        } else {
-            $brands = $brands->get();
+            $attrs = $request->attr;
+            $brandRepository ->selectAttributes($request->attr);
         }
 
-        return response()->json($brands,200);
+        return response()->json($brandRepository->getResult(),200);
     }
 
     /**

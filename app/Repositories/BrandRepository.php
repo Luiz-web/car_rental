@@ -10,17 +10,25 @@
             $this->model = $model;
         }
     
-        public function selectAttributes($attr) {
+        public function selectRelationalAttributes($attr) {
             $this->model = $this->model->with($attr);
         }
 
         public function filter($filters) {
-            $filters = explode(';', $request->filter);
+            $filters = explode(';', $filters);
             
-            foreach($filter as $key => $condition) {
+            foreach($filters as $key => $condition) {
                 $c = explode(':', $condition);
                 $this->model = $this->model->where($c[0], $c[1], $c[2]);
             }
+        }
+
+        public function selectAttributes($attrs) {
+            $this->model = $this->model->selectRaw($attrs);
+        }
+
+        public function getResult() {
+            return $this->model->get();
         }
            
     
