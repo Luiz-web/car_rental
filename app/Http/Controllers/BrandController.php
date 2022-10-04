@@ -34,11 +34,7 @@ class BrandController extends Controller
         }
 
         if($request->has('filter')) {
-            $filter = explode(';', $request->filter);
-            foreach($filter as $key => $condition) {
-                $c = explode(':', $condition);
-                $brands = $brands->where($c[0], $c[1], $c[2]);
-            }
+           $brandRepository->filter($request->filter);
         }
 
         if($request->has('attr')) {
