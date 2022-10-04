@@ -10,8 +10,8 @@
             $this->model = $model;
         }
     
-        public function selectRelationalAttributes($attr) {
-            $this->model = $this->model->with($attr);
+        public function selectRelationalAttributes($relational_attrs) {
+            $this->model = $this->model->with($relational_attrs);
         }
 
         public function filter($filters) {

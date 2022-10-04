@@ -26,21 +26,21 @@ class BrandController extends Controller
 
         $brandRepository = new BrandRepository($this->brand);
        
-        if($request->has('model_attr')) {
-            $model_attr = 'carModels:id,'.$request->model_attr;
-            $brandRepository->selectRelationalAttributes($model_attr);
+        if($request->has('relational_attrs')) {
+            $relational_attrs = 'carModels:id,'.$request->relational_attrs;
+            $brandRepository->selectRelationalAttributes($relational_attrs);
         }  else {
             $brandRepository->selectRelationalAttributes('carModels');
         }
 
-        if($request->has('filter')) {
-            $filters = $request->filter;
+        if($request->has('filters')) {
+            $filters = $request->filters;
            $brandRepository->filter($filters);
         }
 
-        if($request->has('attr')) {
-            $attrs = $request->attr;
-            $brandRepository ->selectAttributes($request->attr);
+        if($request->has('attrs')) {
+            $attrs = $request->attrs;
+            $brandRepository ->selectAttributes($attrs);
         }
 
         return response()->json($brandRepository->getResult(),200);
