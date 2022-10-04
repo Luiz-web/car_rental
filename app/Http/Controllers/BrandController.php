@@ -23,13 +23,14 @@ class BrandController extends Controller
      */
     public function index(Request $request)
     {
-        $brands = array();
 
+        $brandRepository = new BrandRepositpory($this->brand);
+       
         if($request->has('model_attr')) {
-            $model_attr = $request->model_attr;
-            $brands = $this->brand->with('carModels:id,'.$model_attr);
+            $model_attr = 'carModels:id,'.$request->model_attr;
+            $brandRepository->selectAttributes($model_attr);
         }  else {
-            $brands = $this->brand->with('carModels');
+            $brandRepository->selectAttributes('carModels');
         }
 
         if($request->has('filter')) {

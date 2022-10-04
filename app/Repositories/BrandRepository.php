@@ -10,7 +10,10 @@
             $this->model = $model;
         }
     
-        
+        public function selectAttributes($attr) {
+            $this->model = $this->model->with($attr);
+        }
+           
     
     }
 
