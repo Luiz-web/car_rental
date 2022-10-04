@@ -13,7 +13,7 @@ class Car extends Model
     public function rules() {
         return [
             'id_car_model' => 'exists:car_models,id' ,
-            'linsence_plate' => 'required|unique|min:6|max:7',
+            'lisence_plate' => 'required|unique:cars,lisence_plate,'.$this->id.'|min:6|max:7',
             'available' => 'required|boolean',
             'km' => 'required|integer',
         ];

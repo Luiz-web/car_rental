@@ -40,7 +40,7 @@ class CarController extends Controller
             $carRepository->selectAttributes($attrs);
         }
 
-        return response()->json($carRepository->getResult(), 200);
+        return response()->json($carRepository->getResult(), 201);
     }
 
     /**
@@ -61,7 +61,16 @@ class CarController extends Controller
      */
     public function store(StoreCarRequest $request)
     {
-        //
+        $request->validate($this->car->rules());
+
+        $car = $this->car->create([
+            'id_car_model' => $request->id_car_model,
+            'lisence_plate' => $request->lisence_plate,
+            'available' => $request->available,
+            'km' => $request->km,
+        ]);
+
+        return response()->json($car, 200);
     }
 
     /**
