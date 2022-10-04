@@ -76,12 +76,18 @@ class CarController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Car  $car
+     * @param Integer
      * @return \Illuminate\Http\Response
      */
     public function show(Car $car)
     {
-        //
+        $car = $this->car->find($id);
+
+        if($car === null) {
+            return response()->json(['error' => 'The searched resource does not exist in the database'], 404);
+        }
+
+        return response()->json($car, 200);
     }
 
     /**
@@ -99,18 +105,22 @@ class CarController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateCarRequest  $request
-     * @param  \App\Models\Car  $car
+     * @param Integer
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateCarRequest $request, Car $car)
     {
-        //
+        $car = $this->car->find($id);
+
+        if($car === null) {
+            return response()->json(['error' => 'The searched resource does not exist in the database'], 404);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Car  $car
+     * @param Integer
      * @return \Illuminate\Http\Response
      */
     public function destroy(Car $car)
