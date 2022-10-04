@@ -7,6 +7,7 @@ use App\Http\Requests\StoreCarModelRequest;
 use App\Http\Requests\UpdateCarModelRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use App\Repositories\CarModelRepository;
 
 class CarModelController extends Controller
 {
@@ -21,31 +22,26 @@ class CarModelController extends Controller
      */
     public function index(Request $request)
     {
-        $carModels = array();
+        $carModelRepository = new CarModelRepository($this->carModel);
 
         if($request->has('brand_attr')) {
-            $brand_attr = $request->brand_attr;
-            $carModels = $this->carModel->with('brand:id,'.$brand_attr);
+            $brand_attrs = 'brand:id,'.$request->brand_attr;
+            $carModelRepository->SelectRelationalAttributes($brand_attrs);
         } else {
             $carModels = $this->carModel->with('brand');
         }
 
         if($request->has('filter')) {
-            $filters = explode(';', $request->filter);
-            foreach($filters as $key => $condition) {
-                $c = explode(':', $condition);
-                $carModels = $carModels->where($c[0], $c[1], $c[2]);
-            }
-            
+            $filters = $request->filter;
+            $carModelRepository->filter($filters);
         }
         
         if($request->has('attr')) {
-            $attr = $request->attr;
-            $carModels = $carModels->selectRaw($attr)->get();
-        } else {
-            $carModels = $carModels->get();
-        }
-        return response()->json($carModels, 200);
+            $attrs = $request->attr;
+            $carModelRepository->selectAttributes($attrs);
+        } 
+        
+        return response()->json($carModelRepository->getResult(), 200);
     }
 
     /**
