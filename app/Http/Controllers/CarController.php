@@ -104,7 +104,15 @@ class CarController extends Controller
      */
     public function update(UpdateCarRequest $request, Car $car)
     {
+<<<<<<< Updated upstream
         //
+=======
+        $car = $this->car->find($id);
+
+        if($car === null) {
+            return response()->json(['error' => 'The searched resource does not exist in the database.'], 404);
+        }
+>>>>>>> Stashed changes
     }
 
     /**
