@@ -1,0 +1,1 @@
+A Laravel API Rest project being developed to practice relationship between database tables and  the Design Pattern with Repository 
