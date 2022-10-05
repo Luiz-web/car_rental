@@ -81,6 +81,18 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
+<<<<<<< Updated upstream
         //
+=======
+        $customer = $this->customer->find($id);
+
+        if($customer === null) {
+            return response()->json(['error' => 'Unable to show. The searched resource does not exist in the database']);
+        }
+
+        $customer->delete();
+        
+        return response()->json(['msg' => 'The customer '.$customer->name.' was successfully deleted.']);
+>>>>>>> Stashed changes
     }
 }
