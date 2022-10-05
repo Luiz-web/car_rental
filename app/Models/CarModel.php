@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class CarModel extends Model
 {
+    
     use HasFactory;
     protected $fillable = ['id_brand', 'name', 'image', 'number_doors', 'seats', 'air_bag', 'abs'];
-
+    
     public function rules() {
         return [
             'id_brand' => 'exists:brands,id',

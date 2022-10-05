@@ -5,15 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
+
 class Car extends Model
 {
     use HasFactory;
     protected $fillable = ['id_car_model', 'lisence_plate', 'available', 'km'];
-
+ 
     public function rules() {
         return [
             'id_car_model' => 'exists:car_models,id' ,
-            'linsence_plate' => 'required|unique|min:6|max:7',
+            'lisence_plate' => 'required|unique:cars,lisence_plate,'.$this->id.'|min:6|max:7',
             'available' => 'required|boolean',
             'km' => 'required|integer',
         ];
