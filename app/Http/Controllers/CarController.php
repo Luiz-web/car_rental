@@ -114,7 +114,7 @@ class CarController extends Controller
         $car = $this->car->find($id);
 
         if($car === null) {
-            return response()->json(['error' => 'Unable to update. '.$msgError], 404);
+            return response()->json(['error' => 'Unable to update. The searched resource does not exist in the database '], 404);
         }
 
         if($request->method() === 'PATCH') {
@@ -149,7 +149,7 @@ class CarController extends Controller
         $car = $this->car->find($id);
 
         if($car === null) {
-            return response()->json(['error' => 'Unable do delete'.$car->error_msg], 404);
+            return response()->json(['error' => 'Unable do delete. The searched resource does not exist in the database'], 404);
         }
 
         $car->delete();
