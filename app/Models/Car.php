@@ -24,4 +24,13 @@ class Car extends Model
     public function carModel() {
         return $this->belongsTo('App\Models\CarModel', 'id_car_model' );
     }
+
+    public function lease() {
+        return $this->belongsTo('App\Models\Lease', 'id_car');
+    }
+
+    public function customer() {
+        return $this->belongsTo('App\Models\Customer', 'id_customer');
+    }
+
 }
