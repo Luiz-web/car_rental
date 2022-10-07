@@ -13,6 +13,7 @@ class CustomerController extends Controller
 
     public function __construct(Customer $customer) {
         $this->customer = $customer;
+        $this->msgError = 'The searched customer does not exist in the database.';
     }
     /**
      * Display a listing of the resource.
@@ -74,7 +75,7 @@ class CustomerController extends Controller
         $customer = $this->customer->find($id);
 
         if($customer === null) {
-            return response()->json(['error' => 'Unable to show. The searched resource does not exist in the database']);
+            return response()->json(['error' => 'Unable to show data. '.$this->msgError]);
         }
 
         return response()->json($customer, 201);
@@ -103,7 +104,7 @@ class CustomerController extends Controller
         $customer = $this->customer->find($id);
 
         if($customer === null) {
-            return response()->json(['error' => 'Unable to show. The searched resource does not exist in the database']);
+            return response()->json(['error' => 'Unable to update data. '.$this->msgError]);
         }
 
         if($request->method === 'PATCH') {
@@ -126,8 +127,6 @@ class CustomerController extends Controller
         $customer->save();
 
         return response()->json($customer, 200);
-
-
     }
 
     /**
@@ -141,7 +140,7 @@ class CustomerController extends Controller
         $customer = $this->customer->find($id);
 
         if($customer === null) {
-            return response()->json(['error' => 'Unable to show. The searched resource does not exist in the database']);
+            return response()->json(['error' => 'Unable to delete data. ' .$this->msgError]);
         }
 
         $customer->delete();

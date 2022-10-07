@@ -15,6 +15,7 @@ class BrandController extends Controller
 
     public function __construct(Brand $brand) {
         $this->brand = $brand;
+        $this->msgError = 'The searched brand does not exist in the database';
     }
     /**
      * Display a listing of the resource.
@@ -58,6 +59,7 @@ class BrandController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * 
      *
      * @param  \App\Http\Requests\StoreBrandRequest  $request
      * @return \Illuminate\Http\Response
@@ -87,7 +89,7 @@ class BrandController extends Controller
     {
         $brand = $this->brand->with('carModels')->find($id);
         if($brand === null) {
-            return response()->json(['error' => 'searched resource does not exist in the database '], 404);
+            return response()->json(['error' => 'Unable to show data. '.$this->msgError], 404);
         }
 
         return response()->json($brand, 200);
@@ -116,7 +118,7 @@ class BrandController extends Controller
         $brand = $this->brand->find($id);
 
         if($brand === null) {
-            return response()->json(['error' => 'searched resource does not exist in the database '], 404);
+            return response()->json(['error' => 'Unable to update data. '.$this->msgError], 404);
         }
 
         if($request->method() === 'PATCH') {
@@ -161,7 +163,7 @@ class BrandController extends Controller
         $brand = $this->brand->find($id);
         
         if($brand === null) {
-            return response()->json(['error' => 'searched resource does not exist in the database '], 404);
+            return response()->json(['error' => 'Unable to delete data. '.$this->msgError], 404);
         }
 
         if($request->file('image')) {
@@ -170,8 +172,6 @@ class BrandController extends Controller
 
         $brand->delete();
         return response()->json(['msg' => "The brand $brand->name has been successfully deleted"], 200);
-
-
 
     }
 }

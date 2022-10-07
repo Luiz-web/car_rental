@@ -14,6 +14,7 @@ class CarModelController extends Controller
 
     public function __construct(CarModel $carModel) {
         $this->carModel = $carModel;
+        $this->msgError = 'The searched model does not exist in the database';
     }
     /**
      * Display a listing of the resource.
@@ -91,7 +92,7 @@ class CarModelController extends Controller
         $carModel = $this->carModel->with('brand')->find($id);
 
         if($carModel === null) {
-            return response()->json(['error' => 'The searched resource does not exist in the database']);
+            return response()->json(['error' => 'Unable to show data. ' .$this->msgError]);
         }
 
         return response()->json($carModel, 201);
@@ -120,7 +121,7 @@ class CarModelController extends Controller
         $carModel = $this->carModel->find($id);
 
         if($carModel === null) {
-            return response()->json(['error' => 'The searched resource does not exist in the database']);
+            return response()->json(['error' => 'Unable to update data. '.$this->msgError]);
         }
 
         if($request->method() === 'PATCH') {
@@ -151,7 +152,6 @@ class CarModelController extends Controller
         $carModel->save();
         
         return response()->json($carModel, 200);
-
     }
 
     /**
@@ -163,10 +163,9 @@ class CarModelController extends Controller
     public function destroy(Request $request, $id)
     {
         $carModel = $this->carModel->find($id);
-
         
         if($carModel === null) {
-            return response()->json(['error' => 'The searched resource does not exist in the database'], 404);
+            return response()->json(['error' => 'Unable to delete data. '.$this->msgError], 404);
         }
 
         if($request->file('image')) {

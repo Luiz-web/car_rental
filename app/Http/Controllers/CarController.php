@@ -14,6 +14,7 @@ class CarController extends Controller
 
     public function __construct(Car $car) {
         $this->car = $car;
+        $this->msgError = 'The searched car does not exist in the database';
     }
     /**
      * Display a listing of the resource.
@@ -85,7 +86,7 @@ class CarController extends Controller
         $car = $this->car->with('carModel')->find($id);
 
         if($car === null) {
-            return response()->json(['error' => 'Unable to show. The searched resource does not exist in the Database'], 404);
+            return response()->json(['error' => 'Unable to show data. '.$this->msgError], 404);
         }
 
         return response()->json($car, 201);
@@ -114,7 +115,7 @@ class CarController extends Controller
         $car = $this->car->find($id);
 
         if($car === null) {
-            return response()->json(['error' => 'Unable to update. The searched resource does not exist in the database '], 404);
+            return response()->json(['error' => 'Unable to update data. '.$this->msgError], 404);
         }
 
         if($request->method() === 'PATCH') {
@@ -149,11 +150,10 @@ class CarController extends Controller
         $car = $this->car->find($id);
 
         if($car === null) {
-            return response()->json(['error' => 'Unable do delete. The searched resource does not exist in the database'], 404);
+            return response()->json(['error' => 'Unable do delete data. '.$this->msgError], 404);
         }
 
         $car->delete();
         return response()->json(['msg' => 'The car with the lisence_plate '.$car->lisence_plate.' was successfully deleted']);
-        
     }
 }

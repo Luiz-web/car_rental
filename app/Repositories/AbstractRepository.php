@@ -29,7 +29,6 @@ abstract class AbstractRepository {
     public function getResult() {
         return $this->model->get();
     }
-
 }
 
 ?>

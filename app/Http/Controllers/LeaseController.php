@@ -15,6 +15,7 @@ class LeaseController extends Controller
     public function __construct(Lease $lease, Car $car) {
         $this->lease = $lease;
         $this->car = $car;
+        $this->msgError = 'The searched lease does not exist in the database';
     }
     /**
      * Display a listing of the resource.
@@ -106,7 +107,7 @@ class LeaseController extends Controller
         $lease = $this->lease->find($id);
 
         if($lease === null) {
-            return response()->json(['error' => 'Unable to find data. The searched resource does not exists in the database']);
+            return response()->json(['error' => 'Unable to show data. '.$this->msgError]);
         }
 
         return response()->json($lease ,201);
@@ -135,7 +136,7 @@ class LeaseController extends Controller
         $lease = $this->lease->find($id);
 
         if($lease === null) {
-            return response()->json(['error' => 'Unable to find data. The searched resource does not exists in the database']);
+            return response()->json(['error' => 'Unable to update data. '.$this->msgError]);
         }
         
         $id_car = $lease->id_car; //Getting the old car's id through the lease before updated
@@ -176,7 +177,7 @@ class LeaseController extends Controller
         $lease = $this->lease->find($id);
         
         if($lease === null) {
-            return response()->json(['error' => 'Unable to find data. The searched resource does not exists in the database']);
+            return response()->json(['error' => 'Unable to delete data. '.$this->msgError]);
         }
         
         $id_car =  $lease->id_car; //Getting the id_car.
