@@ -7,14 +7,12 @@ use App\Http\Requests\StoreLeaseRequest;
 use App\Http\Requests\UpdateLeaseRequest;
 use App\Repositories\LeaseRepository;
 use Illuminate\Http\Request;
-use App\Models\Car;
 
 
 class LeaseController extends Controller
 {
-    public function __construct(Lease $lease, Car $car) {
+    public function __construct(Lease $lease) {
         $this->lease = $lease;
-        $this->car = $car;
     }
     /**
      * Display a listing of the resource.
@@ -81,34 +79,18 @@ class LeaseController extends Controller
             'final_km' => $request->final_km,
         ]);
 
-        if($lease->car->available === 0) {
-            return response()->json(['error' => 'This car is not available for lease. Please search for another car that is available']);
-        } else {
-            $lease->car->available = 0;
-            
-            $this->car->with('lease')->update([
-                'available' => 0,
-            ]);
-        }
-
         return response()->json($lease, 200);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  Integer
+     * @param  \App\Models\Lease  $lease
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Lease $lease)
     {
-        $lease = $this->lease->find($id);
-
-        if($lease === null) {
-            return response()->json(['error' => 'Unable to find data. The searched resource does not exists in the database']);
-        }
-
-        return response()->json($lease ,201);
+        //
     }
 
     /**
@@ -126,44 +108,22 @@ class LeaseController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateLeaseRequest  $request
-     * @param  Integer
+     * @param  \App\Models\Lease  $lease
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateLeaseRequest $request, $id)
+    public function update(UpdateLeaseRequest $request, Lease $lease)
     {
-        $lease = $this->lease->find($id);
-
-        if($lease === null) {
-            return response()->json(['error' => 'Unable to find data. The searched resource does not exists in the database']);
-        }
-
-        $lease->fill($request->all);
-
-        $lease->save();
-
-        return response()->json($lease, 200);
-        
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Integer
+     * @param  \App\Models\Lease  $lease
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Lease $lease)
     {
-        $lease = $this->lease->find($id);
-        
-        if($lease === null) {
-            return response()->json(['error' => 'Unable to find data. The searched resource does not exists in the database']);
-        }
-        
-        $lease->delete();
-        $car = $this->car->with('lease')->update([
-            'available' => 1,
-        ]);
-        
-        return response()->json(['msg' => 'The leased car' .$lease->car->lisence_plate.' has been returned . It is available for a new lease']);
+        //
     }
 }
