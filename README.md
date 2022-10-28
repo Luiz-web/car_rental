@@ -9,7 +9,7 @@
 </br>
 
 <h2 style="text-align: center; color: black;">About the development</h2>
-<p>App rental car is developed using the Web Service rest architecture, where the client receives reponses with the data in JSON format. I used the POSTMAN as a client for testing the endpoints of this API.</p>
+<p>App Rental Car is developed using the Web Service rest architecture, where the client receives reponses with the data in JSON format. I used the POSTMAN as a client for testing the endpoints of this API.</p>
 <img src="lease.png"></img>
 </br>
 <img src="zoom_img.png"></img>
